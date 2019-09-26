@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello World2｜undefined
+        Openstack--虚拟机迁移｜undefined
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2019/09/26/hello-world2/">
+    <link rel="canonical" href="http://yoursite.com/2019/09/26/Openstack--虚拟机迁移/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -137,7 +137,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello World2</h1>
+                    <h1>Openstack--虚拟机迁移</h1>
                     
                     <span class="meta">
                          作者 袁硕
@@ -154,7 +154,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello World2
+            Openstack--虚拟机迁移
         </span>
     </div>
 </header>
@@ -165,19 +165,16 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+                <p>这篇文章讲下虚拟机迁移的时候，nova与neutron模块之间的交互流程。</p>
+<h3 id="虚拟机迁移的两种方式"><a href="#虚拟机迁移的两种方式" class="headerlink" title="虚拟机迁移的两种方式"></a>虚拟机迁移的两种方式</h3><p>openstacvk虚拟机迁移分为冷迁移和热迁移两种方式。<br>1.冷迁移：<br>冷迁移(cold migration)，也叫静态迁移。关闭电源的虚拟机进行迁移。通过冷迁移，可以选择将关联的磁盘从一个数据存储移动到另一个数据存储。<br>好处：虚拟机不需要位于共享存储器上，数据丢失率小<br>缺点：需要关闭电源，业务中断。</p>
+<p>2.热迁移：<br>热迁移（Live Migration），又叫动态迁移、实时迁移，即虚拟机保存/恢复，通常是将整个虚拟机的运行状态完整保存下来，同时可以快速的恢复到原有硬件平台甚至是不同硬件平台上。恢复以后，虚拟机仍旧平滑运行，用户不会察觉到任何差异。<br>好处：软件和硬件系统的维护升级，不会影响用户的关键服务，提高了服务的高可用性和 用户的满意度。<br>缺点：过程不可中断，操作复杂。</p>
+<h3 id="虚拟机迁移–nova侧"><a href="#虚拟机迁移–nova侧" class="headerlink" title="虚拟机迁移–nova侧"></a>虚拟机迁移–nova侧</h3><p>1.nova-api,nova-conductor的处理<br>用户可以通过 nova live-migration发起在线迁移操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nova --debug live-migration &lt;vm id&gt;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>nova-api的处理比较简单，先认证权限及转换输入参数，之后更新实例任务状态(migrating)及nova.instance_actions数据库，最后发起同步rpc请求migrate_server，由nova-conductor执行后续的处理<br>nova-conductor的处理过程略显复杂，与nova-compute的交互比较多，主要是判断通过nova-scheduler选择的候选目标主机是否满足执行在线迁移的条件，另外会在数据表nova.migrations创建一条迁移记录；在迁移发生异常是也会更新nova.instance_faults数据表，最后发起异步rpc请求，由nova-compute完成后续的迁移操作</p>
+<p>2.nova-compute的处理<br>nova-compute收到live_migration消息后，更新nova.migrations记录，然后启动一个线程来执行热迁移操作，所以整个迁移操作都是在一个新的线程内完成的.<br>nova-compute的处理过程分为下面3个部分：<br>2.1prepare准备阶段<br>    在目标主机安装实例的VIF网络<br>    复制non-volume设备到目标主机的实例配置目录<br>    配置实例的网络及防火墙过滤规则<br>2.2execute执行阶段<br>    更新迁移状态及校验目标主机名，之后创建线程执行块迁移并通过事件监控迁移状态<br>    块迁移时执行参数配置和条件检查，然后由libvirt完成迁移过程<br>    事件监控就是一个大循环在不停的监视迁移状态，如果发生错误则退出；如果迁移完成就调用_post_live_migration 执行扫尾工作，如果迁移失败或者被取消就调用_rollback_live_migration执行回滚操作。<br>2.3complete完成阶段<br>    （1）迁移成功的清理操作主要包括两个方面：源主机和目标主机。<br>    在源主机端主要是：清除实例占用的VIF网络信息及相关的过滤规则，磁盘，端口等，最后undefine 实例。<br>    在目标主机端主要是：更新VIF网络信息并define实例<br>    （2）迁移失败后的回滚操作：失败后的清理基本就是把迁移成功后对源主机的清理操作应用到了目标主机上</p>
+<h3 id="虚拟机迁移–neutron侧"><a href="#虚拟机迁移–neutron侧" class="headerlink" title="虚拟机迁移–neutron侧"></a>虚拟机迁移–neutron侧</h3><p>如下是一张官方虚拟机迁移时序图：<br><img src="/images/live-mig.png" alt></p>
+<p>参考链接：<br><a href="https://blog.csdn.net/lzw06061139/article/details/52044003" target="_blank" rel="noopener">https://blog.csdn.net/lzw06061139/article/details/52044003</a><br><a href="https://www.cnblogs.com/goldsunshine/p/9588017.html" target="_blank" rel="noopener">https://www.cnblogs.com/goldsunshine/p/9588017.html</a></p>
 
                 <hr>
                 
@@ -206,7 +203,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#虚拟机迁移的两种方式"><span class="toc-text">虚拟机迁移的两种方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#虚拟机迁移–nova侧"><span class="toc-text">虚拟机迁移–nova侧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#虚拟机迁移–neutron侧"><span class="toc-text">虚拟机迁移–neutron侧</span></a></li></ol>
                 </div>
             </div>
         </div>
