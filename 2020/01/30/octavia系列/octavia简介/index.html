@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="奔跑的蜗牛" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Octavia简介｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2020/01/30/octavia系列/octavia简介/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    奔跑的蜗牛
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Octavia简介</h1>
+                    
+                    <span class="meta">
+                         作者 袁硕
+                        <span>
+                          日期 2020-01-30
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Octavia简介
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>Octavia是一款用于实现负载均衡的架构方案，与openstack结合使用，调用nova以及neutron的api生成一台装有负载均衡软件（haproxy、lvs）的虚拟机，为租户提供负载均衡服务。</p>
+<p>自 Pike 以来 OpenStack 推荐使用 Octavia 代替 neutron-lbaas extension 作为 Load Balancing as a Service 的首选方案，并在 Queens 中将 neutron-lbaas 标记为废弃 —— Neutron-lbaas is now deprecated。</p>
+<p>社区推崇 Octavia 的原因有很多，它解决了 neutron-lbaas 遗留的历史包袱，能够对外提供独立而稳定的 API。简单的说，社区认为 neutron-lbaas 使 Neutron 的项目管理变得拖沓，LBaaS 应该作为一个独立项目得到长足的发展，事实也是如此。该文章是基于octavia-stein版本进行介绍。</p>
+<p>参考资料：<a href="https://wiki.openstack.org/wiki/Neutron/LBaaS/Deprecation" target="_blank" rel="noopener">https://wiki.openstack.org/wiki/Neutron/LBaaS/Deprecation</a></p>
+<h2 id="架构组成"><a href="#架构组成" class="headerlink" title="架构组成"></a>架构组成</h2><p>Octavia 的架构设计依旧是常规的「生产者-消费者」异步通讯模型，各组件分离再通过 MessageQueens 进行通信。<br>各组件如下图所示：<br><img src="/images/octavia/%E6%9E%B6%E6%9E%84%E5%9B%BE.png" alt><br>1.amphorae - Amphorae是向租户提供负载均衡服务的载体，它可以是是虚拟机，容器或裸机服务器，该文章背景下采用虚拟机。<br>2.controller - Controller是Octavia的“大脑”。它由以下组件组成，彼此是独立的守护进程。如果需要，它们可以在单独的后端基础架构上运行。</p>
+<ul>
+<li>API Controller - 该组件运行Octavia的API。它需要API请求，对它们执行简单的处理，并通过Octavia消息总线将它们发送给Controller Worker。</li>
+<li>Controller Worker - 该组件从API控制器获取已过滤的API命令，并执行必要的操作以完成API请求。</li>
+<li>Health Manager - 该组件监视单个amphorae以确保它们正常运行，并且保持健康。它还处理故障事件。</li>
+<li>Housekeeping Manager - 该组件清理陈旧（已删除）的数据库记录，管理备用池并管理amphora证书轮换。</li>
+<li>Driver Agent - 该组件负载收集各模块状态与监控数据，并更新数据库。</li>
+</ul>
+<p>3.network - lb实例所在的虚拟机，如果其vip所在的网络与后端member成员不在同一个网段，则可以通过该组件插入网卡进行网络的打通。<br>Octavia实现负载均衡的大体思路，就是将用户的API请求经过逻辑处理，转换成haproxy和keepalived的配置参数，下发到amphorae虚拟机中。</p>
+<p>参考资料：<a href="https://docs.openstack.org/octavia/stein/reference/introduction.html" target="_blank" rel="noopener">https://docs.openstack.org/octavia/stein/reference/introduction.html</a></p>
+<h2 id="组网结构"><a href="#组网结构" class="headerlink" title="组网结构"></a>组网结构</h2><p>octavia的网络架构图如下图所示：<br><img src="/images/octavia/%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84%E5%9B%BE.png" alt><br>网络分为四类：</p>
+<ul>
+<li>openstack管理网：openstack的组件所在的网络，包括barbican、neutron、nova等。还有octavia service组件所在的网络（octavia-api、octavia-worker、octavia-health-manager、octavia-housekeeping），负责octavia的控制与管理。</li>
+<li>LB管理网：amphora的管理网，负责与octavia的service组件通信，接收octavia的配置信息，并将octavia的状态定期上报。</li>
+<li>VIP网络：amphora的数据网，租户通过访问lb vip获取负载均衡服务。</li>
+<li>租户网络：后端member所在的数据网络。</li>
+</ul>
+<p>此处有个知识点，就是如何打通LB管理网（虚拟机）与openstack管理网（硬件服务器）。如果LB管理网使用openstack的provider网络，会有安全风险，因为这会暴露openstack节点的网络ip，并且占用了宝贵的provider的一个ip。devstack采用br-int上挂在虚拟网卡的办法解决，具体步骤如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">amphora虚机管理网与openstack管理网进行隔离</span><br><span class="line"></span><br><span class="line">1.思路：在octavia管理组件所在的宿主机上插入一块虚拟网卡，并将这块虚拟网卡连接到br-int，该虚拟网卡属于vpc网络1；</span><br><span class="line">        创建amphora虚机时指定其管理网络是vpc网络1，进而在网络隔离的基础上保证了连通；</span><br><span class="line"></span><br><span class="line">2.步骤：</span><br><span class="line">（1）生成管理网络，网段</span><br><span class="line"></span><br><span class="line">openstack network create lb-mgmt-net</span><br><span class="line">openstack subnet create --subnet-range 192.168.0.0/24 --allocation-pool start=192.168.0.2,end=192.168.0.200 --network lb-mgmt-net lb-mgmt-subnet</span><br><span class="line"></span><br><span class="line">（2）生成管理端口防火墙规则，限制amphora虚机进出流量</span><br><span class="line">openstack security group create --project &lt;octavia service&gt; lb-mgmt-sec-grp</span><br><span class="line">openstack security group rule create --ingress --protocol udp --dst-port 5555 lb-mgmt-sec-grp</span><br><span class="line">openstack security group rule create --ingress --protocol tcp --dst-port 22 lb-mgmt-sec-grp</span><br><span class="line">openstack security group rule create --ingress --protocol tcp --dst-port 9443 lb-mgmt-sec-grp</span><br><span class="line">openstack security group rule create --egress --protocol udp --dst-port 5555 lb-mgmt-sec-grp</span><br><span class="line">openstack security group rule create --egress --protocol tcp --dst-port 9443 lb-mgmt-sec-grp</span><br><span class="line"></span><br><span class="line">（3）在管理网络创建一个port</span><br><span class="line"></span><br><span class="line">neutron port-create --name octavia-health-manager-standalone-listen-port --security-group lb-mgmt-sec-grp --device-owner Octavia:health-mgr --binding:host_id=&lt;controller&gt; --tenant-id &lt;octavia service&gt; lb-mgmt-net</span><br><span class="line"></span><br><span class="line">（4）创建宿主机的ovs端口并请求dhcp分配ip</span><br><span class="line"></span><br><span class="line">创建端口：</span><br><span class="line">ovs-vsctl --may-exist add-port br-int o-hm0 -- set Interface o-hm0 type=internal -- set Interface o-hm0 external-ids:iface-status=active -- set Interface o-hm0 external-ids:attached-mac=&lt;octavia listen port mac&gt; -- set Interface o-hm0 external-ids:iface-id=&lt;octavia listen port id&gt;</span><br><span class="line"></span><br><span class="line">ip link set dev o-hm0 address &lt;octavia listen port mac&gt;</span><br><span class="line"></span><br><span class="line">注：其中iface-id 和attached-mac 为 步骤3生成的port的属性</span><br><span class="line"></span><br><span class="line">请求dhcp服务：</span><br><span class="line"></span><br><span class="line">创建编辑如下内容：</span><br><span class="line">vim /etc/octavia/dhcp/dhclient.conf</span><br><span class="line">request subnet-mask,broadcast-address,interface-mtu;</span><br><span class="line">do-forward-updates false;</span><br><span class="line"></span><br><span class="line">启动dhcp服务：</span><br><span class="line"></span><br><span class="line">dhclient -v o-hm0 -cf /etc/octavia/dhcp/dhclient.conf</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/octavia/o-hm0.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">（5）修改octavia配置文件</span><br><span class="line"></span><br><span class="line">vim /etc/octavia/octavia.conf</span><br><span class="line"></span><br><span class="line">[health_manager]</span><br><span class="line">bind_port=5555</span><br><span class="line">bind_ip=192.168.0.93                                                         ---------------该ip是步骤3生成的port的ip</span><br><span class="line">controller_ip_port_list=192.168.0.93:5555                                    ---------------该ip是步骤3生成的port的ip</span><br><span class="line"></span><br><span class="line">[controller_worker]</span><br><span class="line">amp_boot_network_list=e94efaf2-6bfe-4604-8828-c5b7ed9615af     ---------该net是步骤1生成的net id</span><br><span class="line">amp_secgroup_list=4c5eb289-aa5e-4ef7-b2c0-9b8222586753         ---------该安全组是步骤2生成的安全组id</span><br><span class="line"></span><br><span class="line">重启octavia服务：</span><br><span class="line"></span><br><span class="line">systemctl restart  octavia-housekeeping  octavia-worker octavia-api octavia-health-manager</span><br><span class="line"></span><br><span class="line">创建lb相关配置，服务可用：</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/octavia/lb-01.png" alt></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/09/26/Openstack--虚拟机迁移/" data-toggle="tooltip" data-placement="top"
+                           title="Openstack--虚拟机迁移">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景介绍"><span class="toc-text">背景介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#架构组成"><span class="toc-text">架构组成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组网结构"><span class="toc-text">组网结构</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 奔跑的蜗牛 2020
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>
