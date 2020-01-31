@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="奔跑的蜗牛" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Octavia命令参数介绍｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2020/01/31/octavia系列/octavia命令参数介绍/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    奔跑的蜗牛
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Octavia命令参数介绍</h1>
+                    
+                    <span class="meta">
+                         作者 袁硕
+                        <span>
+                          日期 2020-01-31
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Octavia命令参数介绍
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="逻辑架构"><a href="#逻辑架构" class="headerlink" title="逻辑架构"></a>逻辑架构</h2><p>Octavia的基本对象概念如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">对象</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">LBaaS</td>
+<td align="left">对于 OpenStack  云平台而言，LB（负载均衡）被作为一种服务提供给用户，用户得以按需地获取可配置的业务负载均衡方案，这就是所谓 Load Balancing as a Service。</td>
+</tr>
+<tr>
+<td align="left">LoadBalancer</td>
+<td align="left">负载均衡服务的根对象，用户对负载均衡的定义、配置和操作都基于此。</td>
+</tr>
+<tr>
+<td align="left">VIP</td>
+<td align="left">与 LoadBalancer 关联的虚拟 IP 地址，每个 LoadBalancer 最起码有一个 VIP 作为外部对后端业务集群访问的标准入口。</td>
+</tr>
+<tr>
+<td align="left">Listener</td>
+<td align="left">下属于 LoadBalancer 的监听器，可配置监听外部对 VIP 的访问类型（e.g. 协议、端口）。</td>
+</tr>
+<tr>
+<td align="left">Pool</td>
+<td align="left">后端的真实业务云主机集群域，一般的，用户会根据云主机的业务类型进行划分。</td>
+</tr>
+<tr>
+<td align="left">Member</td>
+<td align="left">业务云主机，下属于 Pool，对应传统负载均衡体系中的 Real Server。</td>
+</tr>
+<tr>
+<td align="left">Health Monitor</td>
+<td align="left">挂靠于 Pool，周期性对 Pool 中的 Member(s) 进行健康检查。</td>
+</tr>
+<tr>
+<td align="left">L7 Policy</td>
+<td align="left">七层转发策略，描述了数据包转发的动作（e.g. 转发至 Pool，转发至 URL 或拒绝转发）。</td>
+</tr>
+<tr>
+<td align="left">L7 Rule</td>
+<td align="left">七层转发规则，下属于 L7 Policy，描述了数据包转发的匹配域（e.g. 转发至 Pool 中所有以 webserver 开头的 Members）。</td>
+</tr>
+</tbody></table>
+<p><img src="/images/octavia/%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84%E5%9B%BE.png" alt><br>上图是一个简易的利用负载均衡实现的 Web 动静页面分离模型，辅助理解上述概念及其个体与整体间的关系。</p>
+<p>参考资料：<a href="http://www.99cloud.net/10209.html%EF%BC%8F" target="_blank" rel="noopener">http://www.99cloud.net/10209.html%EF%BC%8F</a></p>
+<h2 id="参数介绍"><a href="#参数介绍" class="headerlink" title="参数介绍"></a>参数介绍</h2><p>Octavia的命令参数字段解释如下：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>定义</th>
+<th>对应配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LoadBalancer：</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IP address</td>
+<td>If an IP address is provided it must be a well-formed IPv4 or IPv6 address. The system will attempt to assign the provided IP address to the load balancer. If an IP address is not provided then one will be allocated for you.</td>
+<td>frontend: bind &lt;vip&gt;:&lt;port&gt;</td>
+</tr>
+<tr>
+<td>Subnet</td>
+<td>The network on which to allocate the load balancer’s IP address.</td>
+<td></td>
+</tr>
+<tr>
+<td>vip-qos-policy</td>
+<td>Set QoS policy ID for VIP port.</td>
+<td></td>
+</tr>
+<tr>
+<td>Listener：</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Protocol</td>
+<td>The protocol for the listener. A valid value is HTTP,HTTPS,TERMINATED_HTTPS,UDP or TCP.</td>
+<td>Frontend: mode &lt;protocol&gt;</td>
+</tr>
+<tr>
+<td>Port</td>
+<td>Set the protocol port number for the listener.</td>
+<td>frontend: bind &lt;vip&gt;:&lt;port&gt;</td>
+</tr>
+<tr>
+<td>Connection Limit</td>
+<td>The maximum number of connections permitted for this listener. Default value is -1 which represents infinite connections.</td>
+<td>frontend: maxconn 1000000</td>
+</tr>
+<tr>
+<td>Default Pool ID</td>
+<td>The ID of the pool used by the listener if no L7 policies match.</td>
+<td>Frontend: default_backend &lt;pool id:listener id&gt;</td>
+</tr>
+<tr>
+<td>default-tls-container-ref</td>
+<td>The URI to the key manager service secrets container containing the certificate and key for TERMINATED_TLS listeners.</td>
+<td>bind &lt;vip&gt;:&lt;port&gt; ssl crt /var/lib/octavia/certs/&lt;lb id&gt;/XXX.pem</td>
+</tr>
+<tr>
+<td>sni-container-refs</td>
+<td>A list of URIs to the key manager service secrets containers containing the certificates and keys for TERMINATED_TLS the listener using Server Name Indication.</td>
+<td>bind &lt;vip&gt;:&lt;port&gt; ssl crt /var/lib/octavia/certs/&lt;lb id&gt;/XXX.pem ca-file /var/lib/octavia/certs/&lt;lb id&gt; verify required</td>
+</tr>
+<tr>
+<td>client-ca-tls-container-ref</td>
+<td>The URI to the key manager service secrets container containing the CA certificate for TERMINATED_TLS listeners.</td>
+<td>bind &lt;vip&gt;:&lt;port&gt; ssl crt /var/lib/octavia/certs/&lt;lb id&gt;/XXX.pem ca-file /var/lib/octavia/certs/YYY.pem verify required crl-file /var/lib/octavia/certs/ZZZ.pem</td>
+</tr>
+<tr>
+<td>client-authentication</td>
+<td>The TLS client authentication verify options for TERMINATED_TLS listeners. A valid value is NONE,OPTIONAL or MANDATORY. MANDATORY - A client cert must be provided. OPTIONAL - Prompt for client cert but allow access without one. NONE - Don’t prompt for client cert, useless for web browsers but good for curl…</td>
+<td></td>
+</tr>
+<tr>
+<td>client-crl-container-ref</td>
+<td>The URI to the key manager service secrets container containting the CA revocation list file for TERMINATED_TLS listeners.</td>
+<td></td>
+</tr>
+<tr>
+<td>Insert Headers</td>
+<td>Additional headers insertion into HTTP header, only “X-Forwarded-For”, “X-Forwarded-Port” and “X-Forwarded-Proto” are supported.</td>
+<td>Backend: option forwardfor http-request set-header X-Forwarded-Port %[dst_port] http-request set-header X-Forwarded-Proto http</td>
+</tr>
+<tr>
+<td>Client Data Timeout</td>
+<td>Frontend client inactivity timeout in milliseconds. Default: 50000.</td>
+<td>frontend: timeout client 50000 客户端超时时间</td>
+</tr>
+<tr>
+<td>TCP Inspect Timeout</td>
+<td>Time, in milliseconds, to wait for additional TCP packets for content inspection. Default: 0.</td>
+<td>Frontend: tcp-request inspect-delay 0</td>
+</tr>
+<tr>
+<td>Member Connect Timeout</td>
+<td>Backend member connection timeout in milliseconds. Default: 5000.</td>
+<td>Backend: timeout connect 5000 member超时时间</td>
+</tr>
+<tr>
+<td>Member Data Timeout</td>
+<td>Backend member inactivity timeout in milliseconds. Default: 50000.</td>
+<td>Backend: timeout server 50000 member服务超时时间</td>
+</tr>
+<tr>
+<td>Pool:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Protocol</td>
+<td>The protocol for which this pool and its members listen. A valid value is HTTP, TERMINATED_HTTPS, HTTPS, PROXY, UDP or TCP.</td>
+<td>Backend: mode &lt;protocol&gt;</td>
+</tr>
+<tr>
+<td>LB Algorithm</td>
+<td>The load balancer algorithm that distributes traffic to the pool members. LEAST_CONNECTIONS: Allocates requests to the instance with the least number of active connections. ROUND_ROBIN: Rotates requests evenly between multiple instances. SOURCE_IP: Requests from a unique source IP address are consistently directed to the same instance.</td>
+<td>Backend: balance &lt; algorithm &gt;</td>
+</tr>
+<tr>
+<td>Session Persistence</td>
+<td>The type of session persistence for distributing traffic to the pool members. SOURCE_IP: Session persistence based on source ip. HTTP_COOKIE: Session persistence based on http cookie. APP_COOKIE: Session persistence based on application cookie.</td>
+<td>Backend: SOURCE_IP: stick-table type ip size 10k peers &lt;peer id&gt; stick on src HTTP_COOKIE: cookie SRV insert indirect nocache APP_COOKIE: stick-table type string len 64 size 10k peers &lt;peer id&gt; stick store-response res.cook(&lt;cookie name&gt;) stick match req.cook(&lt;cookie name&gt;)</td>
+</tr>
+<tr>
+<td>tls-container-ref</td>
+<td>The reference to the key manager service secrets container containing the certificate and key for ``tls_enabled``pools to re-encrpt the traffic to backend member servers.</td>
+<td></td>
+</tr>
+<tr>
+<td>ca-tls-container-ref</td>
+<td>The reference to the key manager service secrets container containing the CA certificate for ``tls_enabled`` pools to check the backend member servers certificates.</td>
+<td></td>
+</tr>
+<tr>
+<td>crl-container-ref</td>
+<td>The reference to the key manager service secrets container containting the CA revocation list file for ``tls_enabled`` pools to validate the backend member.</td>
+<td></td>
+</tr>
+<tr>
+<td>Pool Member:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IP address</td>
+<td>The IP address of the backend member server.</td>
+<td>Backend: server &lt;member id&gt; &lt;member ip&gt;:&lt;member port&gt; weight 1</td>
+</tr>
+<tr>
+<td>Subnet</td>
+<td>The subnet ID the member service is accessible from.</td>
+<td></td>
+</tr>
+<tr>
+<td>Protocol Port</td>
+<td>The protocol port number the backend member server is listening on. Must be a number from 1 to 65535.</td>
+<td>server &lt;member id&gt; &lt;member ip&gt;:&lt;member port&gt; weight 1</td>
+</tr>
+<tr>
+<td>Weight</td>
+<td>The weight of a member determines the portion of requests or connections it services compared to the other members of the pool. A higher weight means it will receive more traffic. Must be a number from 1 to 256.</td>
+<td>server &lt;member id&gt; &lt;member ip&gt;:&lt;member port&gt; weight 1</td>
+</tr>
+<tr>
+<td>Monitor Address</td>
+<td>An alternate IP address used for health monitoring a backend member. Default is null which monitors the member address.</td>
+<td>server &lt;member id&gt; &lt;member ip&gt;:&lt;member port&gt; weight 1 addr &lt;monitor address&gt; port &lt;monitor port&gt;</td>
+</tr>
+<tr>
+<td>Monitor Port</td>
+<td>An alternate protocol port used for health monitoring a backend member. Default is null which monitors the member protocol port.</td>
+<td>server &lt;member id&gt; &lt;member ip&gt;:&lt;member port&gt; weight 1 addr &lt;monitor address&gt; port &lt;monitor port&gt;</td>
+</tr>
+<tr>
+<td>Backup</td>
+<td>Is the member a backup? Backup members only receive traffic when all non-backup members are down.</td>
+<td>server &lt;member id&gt; &lt;member ip&gt;:&lt;member port&gt; weight 1 addr &lt;monitor address&gt; port &lt;monitor port&gt; backup</td>
+</tr>
+<tr>
+<td>L7 Policy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Action</td>
+<td>The L7 policy action. One of REJECT, REDIRECT_TO_URL, REDIRECT_PREFIX or REDIRECT_TO_POOL.</td>
+<td>use_backend &lt;backend id&gt;:&lt;frontend id&gt; if &lt;acl id&gt;</td>
+</tr>
+<tr>
+<td>Redirect Pool ID</td>
+<td>Set the pool to redirect requests to. Only valid if action is REDIRECT_TO_POOL.</td>
+<td></td>
+</tr>
+<tr>
+<td>Redirect URL</td>
+<td>Set the URL to redirect requests to. Only valid if action is REDIRECT_TO_URL.</td>
+<td></td>
+</tr>
+<tr>
+<td>Redirect Prefix</td>
+<td>Set the URL Prefix to redirect requests to. Only valid if action is REDIRECT_PREFIX.</td>
+<td></td>
+</tr>
+<tr>
+<td>Redirect http-code</td>
+<td>Set the HTTP response code for REDIRECT_URL or REDIRECT_PREFIX action.</td>
+<td></td>
+</tr>
+<tr>
+<td>Position</td>
+<td>Sequence number of this L7 Policy. Positions start at 1.</td>
+<td></td>
+</tr>
+<tr>
+<td>L7 Rule</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Type</td>
+<td>The L7 rule type. One of FILE_TYPE, PATH, COOKIE, HOST_NAME, HEADER, SSL_CONN_HAS_CERT, SSL_VERIFY_RESULT, or SSL_DN_FIELD. COOKIE: The rule looks for a cookie named by the key parameter and compares it against the value parameter in the rule. HEADER: The rule looks for a header defined in the key parameter and compares it against the value parameter in the rule. FILE_TYPE: The rule compares the last portion of the URI against the value parameter in the rule. (eg. “txt”, “jpg”, etc.) PATH: The rule compares the path portion of the HTTP URI against the value parameter in the rule. HOST_NAME: The rule does a comparison between the HTTP/1.1 hostname in the request against the value parameter in the rule.</td>
+<td>acl &lt;acl id&gt; req.hdr(host) -i -m str &lt;hostname&gt;</td>
+</tr>
+<tr>
+<td>Compare Type</td>
+<td>The comparison type for the L7 rule. One of CONTAINS, ENDS_WITH, EQUAL_TO, REGEX, or STARTS_WITH. REGEX: Perl type regular expression matching. STARTS_WITH: String starts with. ENDS_WITH: String ends with. CONTAINS: String contains. EQUAL_TO: String is equal to.</td>
+<td></td>
+</tr>
+<tr>
+<td>Key</td>
+<td>The key to use for the comparison. For example, the name of the cookie to evaluate.</td>
+<td></td>
+</tr>
+<tr>
+<td>Value</td>
+<td>The value to use for the comparison. For example, the file type to compare.</td>
+<td></td>
+</tr>
+<tr>
+<td>Invert</td>
+<td>When true the logic of the rule is inverted. For example, with invert true, equal to would become not equal to.</td>
+<td></td>
+</tr>
+<tr>
+<td>Health Monitor:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Type</td>
+<td>Set the health monitor type. A valid value is PING,HTTP,TCP,HTTPS,TLS-HELLO,UDP-CONNECT</td>
+<td></td>
+</tr>
+<tr>
+<td>Delay</td>
+<td>Set the time in seconds, between sending probes to members.</td>
+<td>server &lt;member id&gt; &lt;member ip&gt;:&lt;member port&gt; weight 1 check inter 10s fall 3 rise 5</td>
+</tr>
+<tr>
+<td>Max Retries</td>
+<td>The number of successful checks before changing the operating status of the member to ONLINE. Must be a number from 1 to 10.</td>
+<td>server &lt;member id&gt; &lt;member ip&gt;:&lt;member port&gt; weight 1 check inter 10s fall 3 rise 5</td>
+</tr>
+<tr>
+<td>Max Retries Down</td>
+<td>Set the number of allowed check failures before changing the operating status of the member to ERROR. Must be a number from 1 to 10. The default is 3.</td>
+<td>server &lt;member id&gt; &lt;member ip&gt;:&lt;member port&gt; weight 1 check inter 10s fall 3 rise 5</td>
+</tr>
+<tr>
+<td>Timeout</td>
+<td>Set the maximum time, in seconds, that a monitor waits to connect before it times out. This value must be less than the delay value.</td>
+<td>timeout check 5s</td>
+</tr>
+<tr>
+<td>HTTP Method</td>
+<td>Set the HTTP method that the health monitor uses for requests. A valid value is GET,POST,DELETE,PUT,HEAD,OPTIONS,PATCH,CONNECT,TRACE</td>
+<td>option httpchk GET /</td>
+</tr>
+<tr>
+<td>Expected Codes</td>
+<td>Set the list of HTTP status codes expected in response from the member to declare it healthy.</td>
+<td>http-check expect rstatus 200</td>
+</tr>
+<tr>
+<td>URL Path</td>
+<td>Set the HTTP URL path of the request sent by the monitor to test the health of a backend member.</td>
+<td>option httpchk GET /</td>
+</tr>
+<tr>
+<td>quota:</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>healthmonitor</td>
+<td>New value for the health monitor quota. Value -1 means unlimited.</td>
+<td></td>
+</tr>
+<tr>
+<td>listener</td>
+<td>New value for the listener quota. Value -1 means unlimited.</td>
+<td></td>
+</tr>
+<tr>
+<td>loadbalancer</td>
+<td>New value for the load balancer quota limit. Value -1 means unlimited.</td>
+<td></td>
+</tr>
+<tr>
+<td>member</td>
+<td>New value for the member quota limit. Value -1 means unlimited.</td>
+<td></td>
+</tr>
+<tr>
+<td>pool</td>
+<td>New value for the pool quota limit. Value -1 means unlimited.</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>可见官网demo<br><a href="https://docs.openstack.org/octavia/latest/user/guides/basic-cookbook.html" target="_blank" rel="noopener">https://docs.openstack.org/octavia/latest/user/guides/basic-cookbook.html</a><br><a href="https://docs.openstack.org/octavia/latest/user/guides/l7-cookbook.html" target="_blank" rel="noopener">https://docs.openstack.org/octavia/latest/user/guides/l7-cookbook.html</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/01/30/octavia系列/octavia简介/" data-toggle="tooltip" data-placement="top"
+                           title="Octavia简介">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#逻辑架构"><span class="toc-text">逻辑架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数介绍"><span class="toc-text">参数介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用场景"><span class="toc-text">使用场景</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 奔跑的蜗牛 2020
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>
